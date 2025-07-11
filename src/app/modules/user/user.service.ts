@@ -11,10 +11,6 @@ const userCreateService = async (payload: Partial<IUser>) => {
         throw new AppError(httpStatus.BAD_REQUEST, "User already exist");
     };
     const hashPassword = await bcrypt.hash(password as string, 10);
-    // const isMatchPassword = await bcrypt.compare(password as string, hashPassword);
-    // if (isMatchPassword) {
-    //     throw new AppError(httpStatus.BAD_REQUEST, "Password no match");
-    // };
     const auth: IAuthProvider = { provider: "credentials", providerId: email as string }
     const user = await User.create({
         email,
