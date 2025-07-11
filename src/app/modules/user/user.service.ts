@@ -1,9 +1,27 @@
+import bcrypt from "bcryptjs";
 import { User } from "./user.model";
-import { IUser } from "./user.interface";
+import httpStatus from "http-status";
+import { AppError } from "../../errors/AppError";
+import { IAuthProvider, IUser } from "./user.interface";
 
 const userCreateService = async (payload: Partial<IUser>) => {
-    const { name, email } = payload;
-    const user = await User.create({ name, email });
+    const { email, password, ...rest } = payload;
+    const isExist = await User.findOne({ email });
+    if (isExist) {
+        throw new AppError(httpStatus.BAD_REQUEST, "User already exist");
+    };
+    const hashPassword = await bcrypt.hash(password as string, 10);
+    // const isMatchPassword = await bcrypt.compare(password as string, hashPassword);
+    // if (isMatchPassword) {
+    //     throw new AppError(httpStatus.BAD_REQUEST, "Password no match");
+    // };
+    const auth: IAuthProvider = { provider: "credentials", providerId: email as string }
+    const user = await User.create({
+        email,
+        password: hashPassword,
+        auths: [auth],
+        ...rest
+    });
     return user;
 };
 

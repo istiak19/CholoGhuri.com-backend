@@ -8,4 +8,4 @@ export const validateRequest = (zodSchema: AnyZodObject) => async (req: Request,
     } catch (error) {
         next(error);
     }
-}
+};

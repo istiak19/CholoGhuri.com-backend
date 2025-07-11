@@ -11,7 +11,8 @@ const authProviderSchema = new Schema<IAuthProvider>({
         required: true
     }
 }, {
-    versionKey: false
+    versionKey: false,
+    _id: false
 });
 
 const userSchema = new Schema<IUser>({
