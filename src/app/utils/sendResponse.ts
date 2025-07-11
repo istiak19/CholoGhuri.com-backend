@@ -4,7 +4,7 @@ interface IMeta {
     page?: number;
     limit?: number;
     total?: number;
-}
+};
 
 interface IApiResponse<T> {
     statusCode: number;
