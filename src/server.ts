@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { Server } from "http";
 import app from "./app";
 import { envVars } from "./app/config/env";
+import { seedSuperAdmin } from "./app/utils/super.admin";
 
 const port = envVars.PORT;
 let server: Server;
@@ -20,7 +21,10 @@ async function startServer() {
     }
 };
 
-startServer();
+(async () => {
+    startServer();
+    seedSuperAdmin();
+})();
 
 process.on("SIGINT", () => {
     console.warn("💥SIGINT received. Gracefully shutting down...");
