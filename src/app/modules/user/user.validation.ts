@@ -41,7 +41,7 @@ export const createUserZodSchema = z.object({
 export const updatedUserZodSchema = z.object({
     name: z.string({
         required_error: "Name is required",
-    }).min(1, "Name cannot be empty"),
+    }).min(1, "Name cannot be empty").optional(),
 
     password: z
         .string({
