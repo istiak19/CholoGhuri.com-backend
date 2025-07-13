@@ -7,12 +7,14 @@ interface IEnv {
     NODE_ENV: "development" | "production";
     JWT_SECRET: string,
     JWT_EXPIRES_IN: string,
+    JWT_REFRESH_EXPIRES_IN: string,
+    JWT_REFRESH_SECRET: string,
     SUPER_ADMIN_EMAIL: string,
     SUPER_ADMIN_PASSWORD: string
 };
 
 const loadEnvVariable = (): IEnv => {
-    const requiredVariable: string[] = ["PORT", "MONGO_URI", "NODE_ENV", "JWT_SECRET", "JWT_EXPIRES_IN", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD"];
+    const requiredVariable: string[] = ["PORT", "MONGO_URI", "NODE_ENV", "JWT_SECRET", "JWT_EXPIRES_IN", "JWT_REFRESH_EXPIRES_IN", "JWT_REFRESH_SECRET", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD"];
     requiredVariable.forEach((key) => {
         if (!process.env[key]) {
             throw new Error(`Missing required environment variable: ${key}`);
@@ -21,11 +23,13 @@ const loadEnvVariable = (): IEnv => {
     return {
         PORT: process.env.PORT as string,
         DB_URL: process.env.MONGO_URI as string,
-        NODE_ENV: process.env.NODE_ENV as "development" | "production",
         JWT_SECRET: process.env.JWT_SECRET as string,
         JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN as string,
+        JWT_REFRESH_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN as string,
+        JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET as string,
         SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
-        SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string
+        SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
+        NODE_ENV: process.env.NODE_ENV as "development" | "production"
     };
 };
 
