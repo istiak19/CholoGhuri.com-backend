@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcryptjs";
 import { envVars } from "../config/env";
-import { IAuthProvider, IUser } from "../modules/user/user.interface";
 import { User } from "../modules/user/user.model";
+import { IAuthProvider, IUser } from "../modules/user/user.interface";
 
 export const seedSuperAdmin = async () => {
     try {
         const isSuperAdminExist = await User.findOne({ email: envVars.SUPER_ADMIN_EMAIL });
         if (isSuperAdminExist) {
-            console.log("Super Admin already exist!");
+            // console.log("Super Admin already exist!");
             return;
         };
         const authProvider: IAuthProvider = {
@@ -25,6 +26,6 @@ export const seedSuperAdmin = async () => {
         };
         await User.create(payload);
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 };

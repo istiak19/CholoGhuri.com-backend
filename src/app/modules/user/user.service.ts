@@ -1,9 +1,9 @@
 import bcrypt from "bcryptjs";
 import { User } from "./user.model";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import { AppError } from "../../errors/AppError";
 import { IAuthProvider, IUser } from "./user.interface";
-import { JwtPayload } from "jsonwebtoken";
 
 const userAllGetService = async () => {
     const user = await User.find();
