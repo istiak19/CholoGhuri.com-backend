@@ -12,7 +12,7 @@ const userAllGetService = async () => {
         user,
         totalUser
     };
-}
+};
 
 const userCreateService = async (payload: Partial<IUser>) => {
     const { email, password, ...rest } = payload;
