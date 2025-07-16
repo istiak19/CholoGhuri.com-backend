@@ -5,6 +5,9 @@ import { catchAsync } from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { setCookies } from '../../utils/setCookies';
 import { JwtPayload } from 'jsonwebtoken';
+import { AppError } from '../../errors/AppError';
+import { userCreateToken } from '../../utils/userToken';
+import { envVars } from '../../config/env';
 
 const credentialsLogin = catchAsync(async (req: Request, res: Response) => {
     const loginInfo = await authService.credentialsLogin(req.body);
@@ -71,10 +74,28 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
         data: null
     });
 });
+const googleCallback = catchAsync(async (req: Request, res: Response) => {
+    const user = req.user;
+    let redirect = req.query.state ? String(req.query.state) : "";
+    if (redirect.startsWith("/")) {
+        redirect = redirect.slice(1);
+    };
+
+    // console.log(user)
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, "User not found");
+    }
+
+    const tokenInfo = userCreateToken(user);
+    setCookies(res, tokenInfo);
+
+    res.redirect(`${envVars.FRONTEND_URL}/${redirect}`);
+});
 
 export const authController = {
     credentialsLogin,
     refreshTokenLogin,
     logout,
-    resetPassword
+    resetPassword,
+    googleCallback
 };
