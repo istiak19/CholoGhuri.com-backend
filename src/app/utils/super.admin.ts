@@ -15,6 +15,7 @@ export const seedSuperAdmin = async () => {
             provider: "credentials",
             providerId: envVars.SUPER_ADMIN_EMAIL
         };
+        
         const hashPassword = await bcrypt.hash(envVars.SUPER_ADMIN_PASSWORD, 10);
         const payload: IUser = {
             name: "Istiak Super Admin",
