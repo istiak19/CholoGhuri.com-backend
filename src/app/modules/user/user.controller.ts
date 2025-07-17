@@ -60,7 +60,7 @@ const UpdateUser = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.CREATED,
-        message: "User created successfully",
+        message: "User updated successfully",
         data: updateUser
     });
 });

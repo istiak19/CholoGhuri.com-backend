@@ -30,7 +30,7 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
     // Mongoose ValidationError
     else if (err.name === "ValidationError") {
         const simplified = handleMongooseValidationError(err);
-        return res.status(simplified.statusCode).json({
+        res.status(simplified.statusCode).json({
             success: false,
             message: simplified.message,
             errorMessages: simplified.errorMessages,
@@ -44,7 +44,7 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
     // Handle Zod Validation Error
     else if (err instanceof ZodError) {
         const simplified = handleZodError(err);
-        return res.status(simplified.statusCode).json({
+        res.status(simplified.statusCode).json({
             success: false,
             message: simplified.message,
             errorMessages: simplified.errorMessages,
