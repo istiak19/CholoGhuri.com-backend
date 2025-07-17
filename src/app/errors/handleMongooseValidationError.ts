@@ -9,6 +9,6 @@ export const handleMongooseValidationError = (err: any) => {
     return {
         statusCode: 400,
         message: "Validation failed",
-        errorMessages,
+        errorMessages
     };
 };
