@@ -34,6 +34,10 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
             success: false,
             message: simplified.message,
             errorMessages: simplified.errorMessages,
+            error: {
+                name: err.name || "Error",
+                stack: envVars.NODE_ENV === "development" ? err.stack : undefined,
+            },
         });
     }
 
@@ -44,6 +48,10 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
             success: false,
             message: simplified.message,
             errorMessages: simplified.errorMessages,
+            error: {
+                name: err.name || "Error",
+                stack: envVars.NODE_ENV === "development" ? err.stack : undefined,
+            },
         });
     }
 

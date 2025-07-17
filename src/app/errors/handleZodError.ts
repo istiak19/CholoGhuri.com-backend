@@ -9,6 +9,6 @@ export const handleZodError = (err: ZodError) => {
     return {
         statusCode: 400,
         message: "Validation failed",
-        errorMessages,
+        errorMessages
     };
 };
