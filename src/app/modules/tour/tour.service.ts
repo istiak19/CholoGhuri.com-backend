@@ -56,8 +56,8 @@ const createTourService = async (payload: ITour) => {
     if (isExistTour) {
         throw new AppError(httpStatus.BAD_REQUEST, "Tour already exists.")
     };
-    const slug = payload.title.toLocaleLowerCase().split(" ").join("-");
-    payload.slug = slug;
+    // const slug = payload.title.toLocaleLowerCase().split(" ").join("-");
+    // payload.slug = slug;
     const tour = await Tour.create(payload);
     return tour;
 };
@@ -71,10 +71,12 @@ const updateTourService = async (id: string, payload: Partial<ITour>) => {
     if (isExistTour) {
         throw new AppError(httpStatus.BAD_REQUEST, "Tour already exists.")
     };
-    if (payload.title) {
-        const slug = payload.title.toLocaleLowerCase().split(" ").join("-");
-        payload.slug = slug;
-    };
+
+    // pro hook sent
+    // if (payload.title) {
+    //     const slug = payload.title.toLocaleLowerCase().split(" ").join("-");
+    //     payload.slug = slug;
+    // };
     const tour = await Tour.findByIdAndUpdate(id, payload, {
         new: true,
         runValidators: true

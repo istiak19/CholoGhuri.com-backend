@@ -20,4 +20,24 @@ const divisionSchema = new Schema<IDivision>({
     versionKey: false
 });
 
+divisionSchema.pre("save", async function (next) {
+    if (this.isModified("name")) {
+        const baseSlug = this.name.toLocaleLowerCase().split(" ").join("-");
+        const slug = `${baseSlug}-division`;
+        this.slug = slug;
+    }
+    next()
+});
+
+divisionSchema.pre("findOneAndUpdate", async function (next) {
+    const division = this.getUpdate() as Partial<IDivision>
+    if (division.name) {
+        const baseSlug = division.name.toLocaleLowerCase().split(" ").join("-");
+        const slug = `${baseSlug}-division`;
+        division.slug = slug;
+    }
+    this.setUpdate(division)
+    next()
+});
+
 export const Division = model<IDivision>("division", divisionSchema);
