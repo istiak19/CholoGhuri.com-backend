@@ -19,9 +19,10 @@ const createDivisionService = async (payload: IDivision) => {
         throw new AppError(httpStatus.BAD_REQUEST, "This division name is already in use. Please choose a different name.")
     };
 
-    const baseSlug = payload.name.toLocaleLowerCase().split(" ").join("-");
-    const slug = `${baseSlug}-division`;
-    payload.slug = slug;
+    // pro hook transfer
+    // const baseSlug = payload.name.toLocaleLowerCase().split(" ").join("-");
+    // const slug = `${baseSlug}-division`;
+    // payload.slug = slug;
     const division = await Division.create(payload);
     return division;
 };
@@ -36,11 +37,11 @@ const updateDivisionService = async (id: string, payload: Partial<IDivision>) =>
         throw new AppError(httpStatus.BAD_REQUEST, "This division name is already in use. Please choose a different name.")
     };
 
-    if (payload.name) {
-        const baseSlug = payload.name.toLocaleLowerCase().split(" ").join("-");
-        const slug = `${baseSlug}-division`;
-        payload.slug = slug;
-    };
+    // if (payload.name) {
+    //     const baseSlug = payload.name.toLocaleLowerCase().split(" ").join("-");
+    //     const slug = `${baseSlug}-division`;
+    //     payload.slug = slug;
+    // };
 
     const updateDivision = await Division.findByIdAndUpdate(id, payload, {
         new: true,

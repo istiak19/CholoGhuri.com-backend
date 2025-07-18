@@ -32,7 +32,7 @@ const updateDivision = catchAsync(async (req: Request, res: Response) => {
     const division = await divisionServices.updateDivisionService(id, req.body);
     sendResponse(res, {
         success: true,
-        statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.OK,
         message: "Division updated successfully",
         data: division
     });
