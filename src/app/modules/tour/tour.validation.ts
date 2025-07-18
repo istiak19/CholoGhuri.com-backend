@@ -54,3 +54,7 @@ export const updatedTourZodSchema = z.object({
 export const createTourTypeZodSchema = z.object({
     name: z.string()
 });
+
+export const updateTourTypeZodSchema = z.object({
+    name: z.string().optional()
+});
