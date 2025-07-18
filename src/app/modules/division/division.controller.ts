@@ -10,7 +10,10 @@ const getDivision = catchAsync(async (req: Request, res: Response) => {
         success: true,
         statusCode: httpStatus.OK,
         message: "Division retrieved successfully",
-        data: division
+        data: division.division,
+        meta: {
+            total: division.totalDivision
+        }
     });
 });
 

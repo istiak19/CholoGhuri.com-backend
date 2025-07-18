@@ -6,7 +6,7 @@ export const createTourZodSchema = z.object({
     }).min(1, "Title cannot be empty"),
     slug: z.string({
         required_error: "Slug is required",
-    }).min(1, "Slug cannot be empty"),
+    }).min(1, "Slug cannot be empty").optional(),
     images: z.array(z.string()).optional(),
     description: z.string().optional(),
     location: z.string().optional(),
