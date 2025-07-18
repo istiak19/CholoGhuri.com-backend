@@ -8,6 +8,7 @@ const getDivisionService = async () => {
     const division = await Division.find();
     return division;
 };
+
 const createDivisionService = async (payload: IDivision) => {
     const isExistDivision = await Division.findOne({ name: payload.name });
     if (isExistDivision) {
