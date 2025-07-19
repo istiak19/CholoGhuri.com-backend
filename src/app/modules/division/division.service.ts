@@ -13,6 +13,11 @@ const getDivisionService = async () => {
     };
 };
 
+const getSingleDivisionService = async (slug: string) => {
+    const division = await Division.findOne({ slug });
+    return division
+};
+
 const createDivisionService = async (payload: IDivision) => {
     const isExistDivision = await Division.findOne({ name: payload.name });
     if (isExistDivision) {
@@ -61,6 +66,7 @@ const deleteDivisionService = async (id: string) => {
 
 export const divisionServices = {
     getDivisionService,
+    getSingleDivisionService,
     createDivisionService,
     updateDivisionService,
     deleteDivisionService
