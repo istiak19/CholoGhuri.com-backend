@@ -47,12 +47,19 @@ const deleteTourType = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getTour = catchAsync(async (req: Request, res: Response) => {
-    const tour = await tourService.getTourService();
+    const query = req.query;
+    const tour = await tourService.getTourService(query as Record<string, string>);
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,
         message: "Tour retrieved successfully",
-        data: tour
+        data: tour.tour,
+        meta: {
+            total: tour.metaData.total,
+            page: tour.metaData.page,
+            limit: tour.metaData.limit,
+            totalPage: tour.metaData.totalPage
+        }
     });
 });
 
