@@ -4,7 +4,7 @@ import httpStatus from 'http-status';
 import { User } from "../user/user.model";
 import { IUser } from "../user/user.interface";
 import { AppError } from "../../errors/AppError";
-import { createNewAccessTokenWithRefreshToken, userCreateToken } from "../../utils/userToken";
+import { createNewAccessTokenWithRefreshToken, userCreateToken } from "../../utils/createUserToken";
 import { JwtPayload } from "jsonwebtoken";
 
 const credentialsLogin = async (payload: Partial<IUser>) => {
