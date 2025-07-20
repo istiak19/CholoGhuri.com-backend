@@ -92,9 +92,23 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
     }
 };
 
+const updateBookingService = async (id: string, payload: Partial<IBooking>) => {
+    const isExistBooking = await Booking.findById(id);
+    if (!isExistBooking) {
+        throw new AppError(httpStatus.NOT_FOUND, "Booking not found.")
+    };
+
+    const updateBooking = await Booking.findByIdAndUpdate(id, payload, {
+        new: true,
+        runValidators: true
+    });
+    return updateBooking;
+};
+
 export const bookingServices = {
     getBooking,
     getMyBookings,
     getSingleBookingService,
-    createBookingService
+    createBookingService,
+    updateBookingService
 };
