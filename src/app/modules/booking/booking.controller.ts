@@ -5,17 +5,42 @@ import { Request, Response } from 'express';
 import { bookingServices } from './booking.service';
 import { JwtPayload } from 'jsonwebtoken';
 
-const allGetUser = catchAsync(async (req: Request, res: Response) => {
-    // const result = await userServices.userAllGetService();
-    // sendResponse(res, {
-    //     success: true,
-    //     statusCode: httpStatus.OK,
-    //     message: "Users retrieved successfully",
-    //     data: result.user,
-    //     meta: {
-    //         total: result.totalUser
-    //     }
-    // });
+const allGetBooking = catchAsync(async (req: Request, res: Response) => {
+    const booking = await bookingServices.getBooking();
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Bookings retrieved successfully",
+        data: booking.booking,
+        meta: {
+            total: booking.totalBooking
+        }
+    });
+});
+
+const getMyBooking = catchAsync(async (req: Request, res: Response) => {
+    const decodedToken = req.user as JwtPayload;
+    const booking = await bookingServices.getMyBookings(decodedToken.userId);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Bookings retrieved successfully",
+        data: booking.booking,
+        meta: {
+            total: booking.totalBooking
+        }
+    });
+});
+
+const getSingleBooking = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.bookingId;
+    const singleBooking = await bookingServices.getSingleBookingService(id);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Single booking retrieved successfully",
+        data: singleBooking
+    });
 });
 
 const createBooking = catchAsync(async (req: Request, res: Response) => {
@@ -29,21 +54,9 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-const UpdateUser = catchAsync(async (req: Request, res: Response) => {
-    // const id = req.params.id;
-    // const info = req.body;
-    // const verifyTokenUser = req.user;
-    // const updateUser = await userServices.userUpdateService(id, info, verifyTokenUser as JwtPayload);
-    // sendResponse(res, {
-    //     success: true,
-    //     statusCode: httpStatus.CREATED,
-    //     message: "User updated successfully",
-    //     data: updateUser
-    // });
-});
-
 export const bookingController = {
-    allGetUser,
+    allGetBooking,
+    getMyBooking,
+    getSingleBooking,
     createBooking,
-    UpdateUser,
 };

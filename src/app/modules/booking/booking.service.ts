@@ -6,6 +6,36 @@ import { Booking } from './booking.model';
 import { Payment } from '../payment/payment.model';
 import { Tour } from '../tour/tour.model';
 
+const getBooking = async () => {
+    const booking = await Booking.find()
+        .populate("user", { _id: 0, name: 1, email: 1 })
+        .populate("tour", { title: 1, costForm: 1, _id: 0 })
+        .populate("payment", { _id: 0 });
+    const totalBooking = await Booking.countDocuments();
+    return {
+        booking,
+        totalBooking
+    };
+};
+
+const getMyBookings = async (userID: string) => {
+    const booking = await Booking.find({ user: userID }).populate("user", { _id: 0, name: 1, email: 1 })
+        .populate("tour", { title: 1, costForm: 1, _id: 0 })
+        .populate("payment", { _id: 0, amount: 1, createdAt: 1, status: 1 });
+    const totalBooking = await Booking.countDocuments({ user: userID });
+    return {
+        booking,
+        totalBooking
+    };
+};
+
+const getSingleBookingService = async (id: string) => {
+    const booking = await Booking.findOne({ _id: id }).populate("user", { _id: 0, name: 1, email: 1 })
+        .populate("tour", { title: 1, costForm: 1, _id: 0 })
+        .populate("payment", { _id: 0, amount: 1, createdAt: 1, status: 1 });
+    return booking;
+};
+
 const transactionGet = () => {
     // return 'txn_' + (Date.now().toString(36) + Math.random().toString(36).substr(2, 5));
     return `tnx_${Date.now()}_${Math.random() * 1000}`;
@@ -63,5 +93,8 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
 };
 
 export const bookingServices = {
+    getBooking,
+    getMyBookings,
+    getSingleBookingService,
     createBookingService
 };
