@@ -8,7 +8,7 @@ import sendResponse from "../../utils/sendResponse";
 import { setCookies } from '../../utils/setCookies';
 import { JwtPayload } from 'jsonwebtoken';
 import { AppError } from '../../errors/AppError';
-import { userCreateToken } from '../../utils/userToken';
+import { userCreateToken } from '../../utils/createUserToken';
 import { envVars } from '../../config/env';
 import passport from 'passport';
 
