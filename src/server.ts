@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import mongoose from "mongoose";
-import { Server } from "http";
 import app from "./app";
+import { Server } from "http";
+import mongoose from "mongoose";
 import { envVars } from "./app/config/env";
 import { seedSuperAdmin } from "./app/utils/super.admin";
 
@@ -10,7 +10,6 @@ let server: Server;
 
 async function startServer() {
     try {
-        // console.log(envVars.NODE_ENV)
         await mongoose.connect(envVars.DB_URL);
         console.log("Connected to MongoDB!")
         server = app.listen(port, () => {
@@ -27,7 +26,7 @@ async function startServer() {
 })();
 
 process.on("SIGINT", () => {
-    console.warn("💥SIGINT received. Gracefully shutting down...");
+    console.warn("SIGINT received. Gracefully shutting down...");
     if (server) {
         server.close(() => {
             process.exit(0);
@@ -38,7 +37,7 @@ process.on("SIGINT", () => {
 });
 
 process.on("unhandledRejection", (err) => {
-    console.error("🚨Unhandled Promise Rejection detected. Shutting down the server...");
+    console.error("Unhandled Promise Rejection detected. Shutting down the server...");
     console.error("Error details:", err);
     if (server) {
         server.close(() => {
@@ -51,7 +50,7 @@ process.on("unhandledRejection", (err) => {
 // Promise.reject(new Error("I forgot to catch this promise"));
 
 process.on("uncaughtException", (err) => {
-    console.error("💥Uncaught Exception detected. Shutting down the server...");
+    console.error("Uncaught Exception detected. Shutting down the server...");
     console.error("Error details:", err);
     if (server) {
         server.close(() => {

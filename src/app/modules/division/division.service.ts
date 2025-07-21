@@ -1,8 +1,8 @@
-import { AppError } from "../../errors/AppError";
-import { Tour } from "../tour/tour.model";
-import { IDivision } from "./division.interface";
-import { Division } from "./division.model";
 import httpStatus from 'http-status';
+import { Tour } from "../tour/tour.model";
+import { Division } from "./division.model";
+import { AppError } from "../../errors/AppError";
+import { IDivision } from "./division.interface";
 
 const getDivisionService = async () => {
     const division = await Division.find();

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
-import { AppError } from "../../errors/AppError";
 import { User } from "../user/user.model";
-import { IBooking } from "./booking.interface";
 import { Booking } from './booking.model';
-import { Payment } from '../payment/payment.model';
 import { Tour } from '../tour/tour.model';
+import { IBooking } from "./booking.interface";
+import { AppError } from "../../errors/AppError";
+import { Payment } from '../payment/payment.model';
 import { SSLService } from '../SSLCommerz/SSLCommerz.service';
 import { ISSLCommerz } from '../SSLCommerz/SSLCommerz.interface';
 
@@ -53,7 +53,9 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
         if (!user?.phone || !user?.address) {
             throw new AppError(httpStatus.BAD_REQUEST, "Please Update Your Profile to Book a Tour.")
         };
+
         const tour = await Tour.findById(payload.tour).select("costForm");
+
         if (!tour?.costForm) {
             throw new AppError(httpStatus.BAD_GATEWAY, "No tour cost found");
         };
@@ -91,16 +93,17 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
         const userPhone = (updateBookingService?.user as any).phone;
         const sslPayload: ISSLCommerz = {
             name: userName,
-            email: userEmail,
-            address: userAddress,
-            phone: userPhone,
             amount: amount,
-            transactionId
+            email: userEmail,
+            phone: userPhone,
+            transactionId,
+            address: userAddress,
         }
         const SSLPayment = await SSLService.sslPaymentInit(sslPayload);
         // Commit transaction
         await session.commitTransaction();
         session.endSession();
+
         return {
             booking: updateBookingService,
             paymentURL: SSLPayment.GatewayPageURL

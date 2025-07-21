@@ -1,7 +1,7 @@
 import cors from "cors";
+import "./app/config/passport";
 import passport from "passport";
 import { router } from "./app/router";
-import "./app/config/passport";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import { envVars } from "./app/config/env";

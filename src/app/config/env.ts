@@ -32,10 +32,11 @@ interface IEnv {
 
 const loadEnvVariable = (): IEnv => {
     const requiredVariable: string[] = ["PORT", "MONGO_URI", "NODE_ENV", "JWT_SECRET", "JWT_EXPIRES_IN", "JWT_REFRESH_EXPIRES_IN", "JWT_REFRESH_SECRET", "SUPER_ADMIN_EMAIL", "SUPER_ADMIN_PASSWORD", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "FRONTEND_URL", "EXPRESS_SESSION_SECRET", "GOOGLE_CALLBACK_URL", "SSL_VALIDATION_API", "SSL_STORE_ID", "SSL_STORE_PASS", "SSL_PAYMENT_API", "SSL_CANCEL_BACKEND_URL", "SSL_FAIL_BACKEND_URL", "SSL_SUCCESS_BACKEND_URL", "SSL_CANCEL_FRONTEND_URL", "SSL_FAIL_FRONTEND_URL", "SSL_SUCCESS_FRONTEND_URL"];
+    
     requiredVariable.forEach((key) => {
         if (!process.env[key]) {
             throw new Error(`Missing required environment variable: ${key}`);
-        }
+        };
     });
     return {
         PORT: process.env.PORT as string,

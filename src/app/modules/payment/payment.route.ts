@@ -6,5 +6,6 @@ const router = Router();
 router.post("/success", paymentController.successPayment);
 router.post("/fail", paymentController.failPayment);
 router.post("/cancel", paymentController.cancelPayment);
+router.post("/init-payment/:bookingID", paymentController.initPayment);
 
 export const paymentRoutes = router;

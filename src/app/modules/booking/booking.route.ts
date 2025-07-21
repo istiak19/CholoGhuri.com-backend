@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { bookingController } from "./booking.controller";
-import { validateRequest } from "../../middlewares/validateRequest";
-import { createBookingZodSchema } from "./booking.validation";
 import { checkAuth } from "../../middlewares/checkAuth";
+import { bookingController } from "./booking.controller";
+import { createBookingZodSchema } from "./booking.validation";
+import { validateRequest } from "../../middlewares/validateRequest";
 
 const router = Router();
 

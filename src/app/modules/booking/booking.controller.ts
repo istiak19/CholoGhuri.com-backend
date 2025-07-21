@@ -1,9 +1,9 @@
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
+import { Request, Response } from 'express';
 import { catchAsync } from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { Request, Response } from 'express';
 import { bookingServices } from './booking.service';
-import { JwtPayload } from 'jsonwebtoken';
 
 const allGetBooking = catchAsync(async (req: Request, res: Response) => {
     const booking = await bookingServices.getBooking();
