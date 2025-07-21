@@ -17,4 +17,4 @@ router.post("/create", checkAuth("ADMIN", "SUPER_ADMIN"), validateRequest(create
 router.patch("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), validateRequest(updatedTourZodSchema), tourController.updateTour);
 router.delete("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), tourController.deleteTour);
 
-export const tourRouter = router;
+export const tourRouters = router;

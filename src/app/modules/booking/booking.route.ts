@@ -11,4 +11,4 @@ router.get("/", checkAuth("ADMIN", "SUPER_ADMIN"), bookingController.allGetBooki
 router.get("/my-bookings", checkAuth("ADMIN", "USER", "SUPER_ADMIN", "GUIDE"), bookingController.getMyBooking);
 router.get("/:bookingId", checkAuth("ADMIN", "USER", "SUPER_ADMIN", "GUIDE"), bookingController.getSingleBooking);
 
-export const bookingRoute = router;
+export const bookingRoutes = router;
