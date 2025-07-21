@@ -6,6 +6,6 @@ export interface IBooking {
     guestCount: number;
     phone: string;
     address: string;
-    status: "PENDING" | "COMPLETE" | "CANCEL" | "FAILED";
+    status: "PENDING" | "COMPLETE" | "CANCELLED" | "FAILED";
     payment?: Types.ObjectId;
 };
