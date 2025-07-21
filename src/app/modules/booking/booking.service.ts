@@ -5,6 +5,7 @@ import { IBooking } from "./booking.interface";
 import { Booking } from './booking.model';
 import { Payment } from '../payment/payment.model';
 import { Tour } from '../tour/tour.model';
+import { SSLService } from '../SSLCommerz/SSLCommerz.service';
 
 const getBooking = async () => {
     const booking = await Booking.find()
@@ -80,6 +81,10 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
             session
         }).populate("user", "name email phone address").populate("tour", "title costForm").populate("payment");
 
+        // sent to SSL payment
+        // const SSLPayment=await SSLService.sslPaymentInit({
+            
+        // })
         // Commit transaction
         await session.commitTransaction();
         session.endSession();
