@@ -29,7 +29,7 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-// const UpdateUser = catchAsync(async (req: Request, res: Response) => {
+const UpdateUser = catchAsync(async (req: Request, res: Response) => {
     // const id = req.params.id;
     // const info = req.body;
     // const verifyTokenUser = req.user;
@@ -40,10 +40,10 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
     //     message: "User updated successfully",
     //     data: updateUser
     // });
-// });
+});
 
 export const bookingController = {
     allGetUser,
     createBooking,
-    // UpdateUser,
+    UpdateUser,
 };
