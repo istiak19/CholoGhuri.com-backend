@@ -1,8 +1,8 @@
 import { Router } from "express";
+import { checkAuth } from "../../middlewares/checkAuth";
+import { divisionController } from "./division.controller";
 import { validateRequest } from "../../middlewares/validateRequest";
 import { createDivisionZodSchema, updatedDivisionZodSchema } from "./division.validation";
-import { divisionController } from "./division.controller";
-import { checkAuth } from "../../middlewares/checkAuth";
 
 const router = Router();
 

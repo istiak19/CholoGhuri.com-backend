@@ -1,9 +1,9 @@
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
+import { Request, Response } from 'express';
 import { catchAsync } from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { Request, Response } from 'express';
 import { bookingServices } from './booking.service';
-import { JwtPayload } from 'jsonwebtoken';
 
 const allGetUser = catchAsync(async (req: Request, res: Response) => {
     // const result = await userServices.userAllGetService();
@@ -29,7 +29,7 @@ const createBooking = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
-const UpdateUser = catchAsync(async (req: Request, res: Response) => {
+// const UpdateUser = catchAsync(async (req: Request, res: Response) => {
     // const id = req.params.id;
     // const info = req.body;
     // const verifyTokenUser = req.user;
@@ -40,10 +40,10 @@ const UpdateUser = catchAsync(async (req: Request, res: Response) => {
     //     message: "User updated successfully",
     //     data: updateUser
     // });
-});
+// });
 
 export const bookingController = {
     allGetUser,
     createBooking,
-    UpdateUser,
+    // UpdateUser,
 };

@@ -1,8 +1,8 @@
-import { validateRequest } from './../../middlewares/validateRequest';
 import { Router } from "express";
 import { tourController } from "./tour.controller";
-import { createTourTypeZodSchema, createTourZodSchema, updatedTourZodSchema, updateTourTypeZodSchema } from './tour.validation';
 import { checkAuth } from '../../middlewares/checkAuth';
+import { validateRequest } from './../../middlewares/validateRequest';
+import { createTourTypeZodSchema, createTourZodSchema, updatedTourZodSchema, updateTourTypeZodSchema } from './tour.validation';
 
 const router = Router();
 

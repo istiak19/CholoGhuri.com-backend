@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
+import { Tour, TourType } from "./tour.model";
 import { AppError } from "../../errors/AppError";
 import { ITour, ITourType } from "./tour.interface";
-import { Tour, TourType } from "./tour.model";
 import { QueryBuilder } from '../../utils/QueryBuilder';
 
 const getTourTypeService = async () => {

@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response, Router } from "express";
+import passport from "passport";
 import { authController } from "./auth.controller";
 import { checkAuth } from "../../middlewares/checkAuth";
-import passport from "passport";
+import { NextFunction, Request, Response, Router } from "express";
 
 const router = Router();
 

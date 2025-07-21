@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import httpStatus from 'http-status';
+import { envVars } from '../../config/env';
 import { AppError } from "../../errors/AppError";
 import { ISSLCommerz } from "./SSLCommerz.interface";
-import { envVars } from '../../config/env';
 
 const sslPaymentInit = async (payload: ISSLCommerz) => {
     try {

@@ -16,6 +16,7 @@ const getDivision = catchAsync(async (req: Request, res: Response) => {
         }
     });
 });
+
 const getSingleDivision = catchAsync(async (req: Request, res: Response) => {
     const slug = req.params.slug;
     const division = await divisionServices.getSingleDivisionService(slug);

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import { Payment } from "./payment.model";
-import { Booking } from "../booking/booking.model";
 import { AppError } from "../../errors/AppError";
+import { Booking } from "../booking/booking.model";
 import { SSLService } from '../SSLCommerz/SSLCommerz.service';
 import { ISSLCommerz } from '../SSLCommerz/SSLCommerz.interface';
 
