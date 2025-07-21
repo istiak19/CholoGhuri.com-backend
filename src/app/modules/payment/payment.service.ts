@@ -1,5 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from 'http-status';
 import { Payment } from "./payment.model";
 import { Booking } from "../booking/booking.model";
+import { AppError } from "../../errors/AppError";
+import { SSLService } from '../SSLCommerz/SSLCommerz.service';
+import { ISSLCommerz } from '../SSLCommerz/SSLCommerz.interface';
+
+const initPayment = async (id: string) => {
+    const payment = await Payment.findOne({ bookingID: id });
+    if (!payment) {
+        throw new AppError(httpStatus.NOT_FOUND, "Payment Not Found. You have not booked this tour");
+    };
+    const booking = await Booking.findById(payment.bookingID)
+    const userAddress = (booking?.user as any).address
+    const userEmail = (booking?.user as any).email
+    const userPhone = (booking?.user as any).phone
+    const userName = (booking?.user as any).name
+
+    const sslPayload: ISSLCommerz = {
+        address: userAddress,
+        email: userEmail,
+        phone: userPhone,
+        name: userName,
+        amount: payment.amount,
+        transactionId: payment.transactionId
+    };
+
+    const sslPayment = await SSLService.sslPaymentInit(sslPayload);
+    return {
+        paymentUrl: sslPayment.GatewayPageURL
+    }
+};
 
 const successPayment = async (query: Record<string, string>) => {
     const session = await Booking.startSession();
@@ -104,5 +135,6 @@ const cancelPayment = async (query: Record<string, string>) => {
 export const paymentService = {
     successPayment,
     failPayment,
-    cancelPayment
+    cancelPayment,
+    initPayment
 };
