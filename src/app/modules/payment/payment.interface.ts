@@ -2,7 +2,7 @@
 import { Types } from "mongoose"
 
 export interface IPayment {
-    booking: Types.ObjectId;
+    bookingID: Types.ObjectId;
     transactionId: string,
     status: "PAID" | "UNPAID" | "REFUNDED" | "CANCELLED" | "FAILED";
     amount: number;

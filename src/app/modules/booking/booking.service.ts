@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
-import { AppError } from "../../errors/AppError";
 import { User } from "../user/user.model";
-import { IBooking } from "./booking.interface";
 import { Booking } from './booking.model';
-import { Payment } from '../payment/payment.model';
 import { Tour } from '../tour/tour.model';
+import { IBooking } from "./booking.interface";
+import { AppError } from "../../errors/AppError";
+import { Payment } from '../payment/payment.model';
+import { SSLService } from '../SSLCommerz/SSLCommerz.service';
+import { ISSLCommerz } from '../SSLCommerz/SSLCommerz.interface';
 
 const getBooking = async () => {
     const booking = await Booking.find()
@@ -45,11 +48,14 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
     const session = await Booking.startSession();
     session.startTransaction();
     try {
+        const transactionId = transactionGet();
         const user = await User.findById(userID);
         if (!user?.phone || !user?.address) {
             throw new AppError(httpStatus.BAD_REQUEST, "Please Update Your Profile to Book a Tour.")
         };
+
         const tour = await Tour.findById(payload.tour).select("costForm");
+
         if (!tour?.costForm) {
             throw new AppError(httpStatus.BAD_GATEWAY, "No tour cost found");
         };
@@ -67,9 +73,9 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
 
         const payment = await Payment.create([
             {
-                booking: booking[0]._id,
+                bookingID: booking[0]._id,
                 status: 'UNPAID',
-                transactionId: transactionGet(),
+                transactionId,
                 amount
             }
         ], { session });
@@ -80,10 +86,28 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
             session
         }).populate("user", "name email phone address").populate("tour", "title costForm").populate("payment");
 
+        // sent to SSL payment
+        const userName = (updateBookingService?.user as any).name;
+        const userAddress = (updateBookingService?.user as any).address;
+        const userEmail = (updateBookingService?.user as any).email;
+        const userPhone = (updateBookingService?.user as any).phone;
+        const sslPayload: ISSLCommerz = {
+            name: userName,
+            amount: amount,
+            email: userEmail,
+            phone: userPhone,
+            transactionId,
+            address: userAddress,
+        }
+        const SSLPayment = await SSLService.sslPaymentInit(sslPayload);
         // Commit transaction
         await session.commitTransaction();
         session.endSession();
-        return updateBookingService;
+
+        return {
+            booking: updateBookingService,
+            paymentURL: SSLPayment.GatewayPageURL
+        };
     } catch (error) {
         // ❌ Rollback
         await session.abortTransaction();

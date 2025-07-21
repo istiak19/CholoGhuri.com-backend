@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 import { IPayment } from "./payment.interface";
 
 const paymentSchema = new Schema<IPayment>({
-    booking: {
+    bookingID: {
         type: Schema.Types.ObjectId,
         ref: "booking",
         required: true,

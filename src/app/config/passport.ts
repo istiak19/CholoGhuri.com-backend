@@ -17,10 +17,11 @@ passport.use(
                 const isExist = await User.findOne({ email });
                 if (!isExist) {
                     // return done(null, false, { message: "User does not exist" })
-                    return done("User does not exist")
+                    return done("User does not exist");
                 };
 
                 const isGoogleAuthenticated = isExist.auths.some(providerObjects => providerObjects.provider == "google");
+                
                 if (isGoogleAuthenticated && !isExist.password) {
                     // return done(null, false, { message: "You signed up with Google. To login with email and password, please login with Google once and set a password from your profile settings." })
                     return done("You signed up with Google. To login with email and password, please login with Google once and set a password from your profile settings.")
@@ -30,6 +31,7 @@ passport.use(
                     password as string,
                     isExist.password as string
                 );
+
                 if (!isMatchPassword) {
                     // return done(null, false, { message: "Incorrect password" })
                     return done("Incorrect password")
@@ -70,6 +72,7 @@ passport.use(
                         ]
                     })
                 };
+
                 return done(null, user);
             } catch (error) {
                 console.log("Google Strategy Error", error);
@@ -84,10 +87,10 @@ passport.serializeUser((user: any, done: (err: any, id?: unknown) => void) => {
 
 passport.deserializeUser(async (id: string, done: any) => {
     try {
-        const user = await User.findById(id)
-        done(null, user)
+        const user = await User.findById(id);
+        done(null, user);
     } catch (error) {
         console.log(error);
-        done(error)
+        done(error);
     }
 });

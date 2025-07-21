@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response, Router } from "express";
+import passport from "passport";
 import { authController } from "./auth.controller";
 import { checkAuth } from "../../middlewares/checkAuth";
-import passport from "passport";
+import { NextFunction, Request, Response, Router } from "express";
 
 const router = Router();
 
@@ -18,4 +18,4 @@ router.get("/google", async (req: Request, res: Response, next: NextFunction) =>
 
 router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), authController.googleCallback);
 
-export const authRouter = router;
+export const authRouters = router;

@@ -1,8 +1,8 @@
 import { Router } from "express";
+import { checkAuth } from "../../middlewares/checkAuth";
+import { divisionController } from "./division.controller";
 import { validateRequest } from "../../middlewares/validateRequest";
 import { createDivisionZodSchema, updatedDivisionZodSchema } from "./division.validation";
-import { divisionController } from "./division.controller";
-import { checkAuth } from "../../middlewares/checkAuth";
 
 const router = Router();
 
@@ -13,4 +13,4 @@ router.patch("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), validateRequest(updatedD
 router.delete("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), divisionController.deleteDivision);
 
 
-export const divisionRouter = router;
+export const divisionRouters = router;

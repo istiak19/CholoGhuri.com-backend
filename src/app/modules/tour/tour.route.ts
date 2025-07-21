@@ -1,8 +1,8 @@
-import { validateRequest } from './../../middlewares/validateRequest';
 import { Router } from "express";
 import { tourController } from "./tour.controller";
-import { createTourTypeZodSchema, createTourZodSchema, updatedTourZodSchema, updateTourTypeZodSchema } from './tour.validation';
 import { checkAuth } from '../../middlewares/checkAuth';
+import { validateRequest } from './../../middlewares/validateRequest';
+import { createTourTypeZodSchema, createTourZodSchema, updatedTourZodSchema, updateTourTypeZodSchema } from './tour.validation';
 
 const router = Router();
 
@@ -17,4 +17,4 @@ router.post("/create", checkAuth("ADMIN", "SUPER_ADMIN"), validateRequest(create
 router.patch("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), validateRequest(updatedTourZodSchema), tourController.updateTour);
 router.delete("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), tourController.deleteTour);
 
-export const tourRouter = router;
+export const tourRouters = router;
