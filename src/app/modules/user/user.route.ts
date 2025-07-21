@@ -10,4 +10,4 @@ router.get("/all-user", checkAuth("ADMIN", "SUPER_ADMIN"), userControllers.allGe
 router.post("/register", validateRequest(createUserZodSchema), userControllers.createUser);
 router.patch("/:id", validateRequest(updatedUserZodSchema), checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), userControllers.UpdateUser);
 
-export const userRouter = router;
+export const userRouters = router;

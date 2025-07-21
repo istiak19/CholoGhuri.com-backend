@@ -8,4 +8,4 @@ const router = Router();
 
 router.post("/", checkAuth("ADMIN", "USER", "SUPER_ADMIN", "GUIDE"), validateRequest(createBookingZodSchema), bookingController.createBooking);
 
-export const bookingRoute = router;
+export const bookingRoutes = router;

@@ -1,32 +1,37 @@
 import { Router } from "express";
-import { userRouter } from "../modules/user/user.route";
-import { authRouter } from "../modules/auth/auth.route";
-import { tourRouter } from "../modules/tour/tour.route";
-import { divisionRouter } from "../modules/division/division.route";
-import { bookingRoute } from "../modules/booking/booking.route";
+import { userRouters } from "../modules/user/user.route";
+import { authRouters } from "../modules/auth/auth.route";
+import { tourRouters } from "../modules/tour/tour.route";
+import { bookingRoutes } from "../modules/booking/booking.route";
+import { paymentRoutes } from "../modules/payment/payment.route";
+import { divisionRouters } from "../modules/division/division.route";
 
 export const router = Router();
 
 const modulesRouter = [
     {
         path: "/user",
-        route: userRouter
+        route: userRouters
     },
     {
         path: "/auth",
-        route: authRouter
+        route: authRouters
     },
     {
         path: "/division",
-        route: divisionRouter
+        route: divisionRouters
     },
     {
         path: "/tour",
-        route: tourRouter
+        route: tourRouters
     },
     {
         path: "/booking",
-        route: bookingRoute
+        route: bookingRoutes
+    },
+    {
+        path: "/payment",
+        route: paymentRoutes
     },
 ];
 

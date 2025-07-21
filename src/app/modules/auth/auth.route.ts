@@ -18,4 +18,4 @@ router.get("/google", async (req: Request, res: Response, next: NextFunction) =>
 
 router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), authController.googleCallback);
 
-export const authRouter = router;
+export const authRouters = router;
