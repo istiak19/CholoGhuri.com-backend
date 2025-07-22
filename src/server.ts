@@ -2,7 +2,7 @@
 import app from "./app";
 import { Server } from "http";
 import mongoose from "mongoose";
-import { envVars } from "./app/config/env";
+import { envVars } from "./app/config/env.config";
 import { seedSuperAdmin } from "./app/utils/super.admin";
 
 const port = envVars.PORT;

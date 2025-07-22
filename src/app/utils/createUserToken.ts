@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { envVars } from "../config/env";
+import { envVars } from "../config/env.config";
 import { JwtPayload } from 'jsonwebtoken';
 import { AppError } from "../errors/AppError";
 import { User } from '../modules/user/user.model';

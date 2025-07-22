@@ -4,7 +4,7 @@ import passport from "passport";
 import { router } from "./app/router";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import { envVars } from "./app/config/env";
+import { envVars } from "./app/config/env.config";
 import notFound from "./app/middlewares/notFound";
 import express, { Application, Request, Response } from "express";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";

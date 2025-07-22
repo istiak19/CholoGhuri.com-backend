@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import { envVars } from '../../config/env';
+import { envVars } from '../../config/env.config';
 import { Request, Response } from "express";
 import { paymentService } from './payment.service';
 import { catchAsync } from "../../utils/catchAsync";

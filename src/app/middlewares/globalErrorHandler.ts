@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZodError } from "zod";
-import { envVars } from "../config/env";
+import { envVars } from "../config/env.config";
 import { AppError } from "../errors/AppError";
 import { Request, Response, NextFunction } from "express";
 import { handleZodError } from "../errors/handleZodError";

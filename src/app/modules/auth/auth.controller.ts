@@ -3,7 +3,7 @@
 import passport from 'passport';
 import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
-import { envVars } from '../../config/env';
+import { envVars } from '../../config/env.config';
 import { authService } from './auth.service';
 import { AppError } from '../../errors/AppError';
 import { catchAsync } from "../../utils/catchAsync";
