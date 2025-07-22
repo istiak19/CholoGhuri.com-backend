@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import bcrypt from "bcryptjs";
 import passport from "passport";
-import { envVars } from "./env";
+import { envVars } from "./env.config";
 import { User } from "../modules/user/user.model";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy, Profile, VerifyCallback } from "passport-google-oauth20";

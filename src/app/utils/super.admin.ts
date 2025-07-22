@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcryptjs";
-import { envVars } from "../config/env";
+import { envVars } from "../config/env.config";
 import { User } from "../modules/user/user.model";
 import { IAuthProvider, IUser } from "../modules/user/user.interface";
 
