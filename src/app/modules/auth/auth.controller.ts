@@ -36,9 +36,11 @@ const credentialsLogin = catchAsync(async (req: Request, res: Response, next: Ne
         if (err) {
             return next(new AppError(401, err));
         };
+
         if (!user) {
             return next(new AppError(401, info.message))
         };
+
         const userTokens = await userCreateToken(user);
         setCookies(res, userTokens);
         const { password, ...rest } = user.toObject();
