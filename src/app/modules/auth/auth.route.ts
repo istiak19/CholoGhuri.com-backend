@@ -10,6 +10,7 @@ router.post("/refresh-token", authController.refreshTokenLogin);
 router.post("/logout", authController.logout);
 router.post("/change-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.changePassword);
 router.post("/reset-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.resetPassword);
+router.post("/set-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.setPassword);
 
 // Google login
 router.get("/google", async (req: Request, res: Response, next: NextFunction) => {
