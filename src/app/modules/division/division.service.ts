@@ -3,6 +3,7 @@ import { Tour } from "../tour/tour.model";
 import { Division } from "./division.model";
 import { AppError } from "../../errors/AppError";
 import { IDivision } from "./division.interface";
+import { deleteImageFromCLoudinary } from '../../config/cloudinary.config';
 
 const getDivisionService = async () => {
     const division = await Division.find();
@@ -52,6 +53,11 @@ const updateDivisionService = async (id: string, payload: Partial<IDivision>) =>
         new: true,
         runValidators: true
     });
+
+    if (payload.thumbnail && existDivision.thumbnail) {
+        await deleteImageFromCLoudinary(existDivision.thumbnail)
+    };
+
     return updateDivision;
 };
 
