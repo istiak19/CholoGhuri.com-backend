@@ -44,8 +44,12 @@ const createDivision = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateDivision = catchAsync(async (req: Request, res: Response) => {
+    const payload: IDivision = {
+        ...req.body,
+        thumbnail: req.file?.path
+    };
     const id = req.params.id;
-    const division = await divisionServices.updateDivisionService(id, req.body);
+    const division = await divisionServices.updateDivisionService(id, payload);
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,

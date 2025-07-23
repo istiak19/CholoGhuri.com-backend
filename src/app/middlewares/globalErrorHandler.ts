@@ -8,10 +8,22 @@ import { handleZodError } from "../errors/handleZodError";
 import { handleCastError } from "../errors/handleCastError";
 import { handleDuplicateError } from "../errors/handleDuplicateError";
 import { handleMongooseValidationError } from "../errors/handleMongooseValidationError";
+import { deleteImageFromCLoudinary } from "../config/cloudinary.config";
 
-const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+const globalErrorHandler = async (err: any, req: Request, res: Response, next: NextFunction) => {
     let statusCode = err.statusCode || 500;
     let message = err.message || "Something went wrong";
+
+    // console.log({ file: req.files });
+    if (req.file) {
+        await deleteImageFromCLoudinary(req.file.path)
+    };
+
+    if (req.files && Array.isArray(req.files) && req.files.length) {
+        const imageUrls = (req.files as Express.Multer.File[]).map(file => file.path)
+
+        await Promise.all(imageUrls.map(url => deleteImageFromCLoudinary(url)));
+    };
 
     //  // Duplicate Key Error
     if (err.code === 11000) {

@@ -15,7 +15,7 @@ router.delete("/tour-types/:id", checkAuth("ADMIN", "SUPER_ADMIN"), tourControll
 // Tour route
 router.get("/", tourController.getTour);
 router.post("/create", checkAuth("ADMIN", "SUPER_ADMIN"), multerUpload.array("files"), validateRequest(createTourZodSchema), tourController.createTour);
-router.patch("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), validateRequest(updatedTourZodSchema), tourController.updateTour);
+router.patch("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), multerUpload.array("files"), validateRequest(updatedTourZodSchema), tourController.updateTour);
 router.delete("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), tourController.deleteTour);
 
 export const tourRouters = router;
