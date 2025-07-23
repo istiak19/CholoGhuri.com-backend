@@ -9,6 +9,6 @@ export class AppError extends Error {
             this.stack = stack
         } else {
             Error.captureStackTrace(this, this.constructor);
-        }
-    }
-}
+        };
+    };
+};

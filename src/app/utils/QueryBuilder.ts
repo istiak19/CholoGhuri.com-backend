@@ -37,6 +37,7 @@ export class QueryBuilder<T> {
         this.modelQuery = this.modelQuery.select(selectFields)
         return this
     }
+
     pagination(): this {
         const page = Number(this.query.page) || 1
         const limit = Number(this.query.limit) || 10
@@ -44,6 +45,7 @@ export class QueryBuilder<T> {
         this.modelQuery = this.modelQuery.skip(skip).limit(limit)
         return this
     }
+
     build() {
         return this.modelQuery
     }
@@ -54,5 +56,5 @@ export class QueryBuilder<T> {
         const totalDocuments = await this.modelQuery.model.countDocuments();
         const totalPage = Math.ceil(totalDocuments / limit);
         return { page, limit, total: totalDocuments, totalPage }
-    }
-}
+    };
+};
