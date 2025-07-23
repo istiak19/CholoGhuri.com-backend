@@ -30,8 +30,7 @@ const storage = new CloudinaryStorage({
                 // eslint-disable-next-line no-useless-escape
                 .replace(/[^a-z0-9\-]/g, "");      // Remove non-alphanumeric/dash
 
-            const uniqueFileName =
-                Math.random().toString(36).substring(2) + "-" + Date.now() + "-" + fileName;
+            const uniqueFileName = Math.random().toString(36).substring(2) + "-" + Date.now() + "-" + fileName;
 
             return uniqueFileName;
         }
