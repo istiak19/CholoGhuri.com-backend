@@ -51,6 +51,17 @@ const credentialsLoginRefresh = async (refreshToken: string) => {
     };
 };
 
+const changePassword = async (oldPassword: string, newPassword: string, decodedToken: JwtPayload) => {
+    const user = await User.findById(decodedToken.userId);
+    const isOldPasswordMatch = await bcrypt.compare(oldPassword, user!.password as string);
+    
+    if (!isOldPasswordMatch) {
+        throw new AppError(httpStatus.UNAUTHORIZED, "The current password you entered is incorrect");
+    };
+    user!.password = await bcrypt.hash(newPassword, 10);
+    await user!.save();
+};
+
 const resetNewPassword = async (oldPassword: string, newPassword: string, decodedToken: JwtPayload) => {
     const user = await User.findById(decodedToken.userId);
     const isOldPasswordMatch = await bcrypt.compare(oldPassword, user!.password as string);
@@ -65,5 +76,6 @@ const resetNewPassword = async (oldPassword: string, newPassword: string, decode
 export const authService = {
     credentialsLogin,
     credentialsLoginRefresh,
+    changePassword,
     resetNewPassword,
 };
