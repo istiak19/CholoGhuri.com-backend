@@ -8,6 +8,7 @@ const router = Router();
 router.post("/login", authController.credentialsLogin);
 router.post("/refresh-token", authController.refreshTokenLogin);
 router.post("/logout", authController.logout);
+router.post("/change-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.changePassword);
 router.post("/reset-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.resetPassword);
 
 // Google login

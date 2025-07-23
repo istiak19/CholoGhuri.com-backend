@@ -8,6 +8,7 @@ import { AppError } from "../../errors/AppError";
 import { Payment } from '../payment/payment.model';
 import { SSLService } from '../SSLCommerz/SSLCommerz.service';
 import { ISSLCommerz } from '../SSLCommerz/SSLCommerz.interface';
+import { transactionGet } from '../../utils/transactionGet';
 
 const getBooking = async () => {
     const booking = await Booking.find()
@@ -39,14 +40,10 @@ const getSingleBookingService = async (id: string) => {
     return booking;
 };
 
-const transactionGet = () => {
-    // return 'txn_' + (Date.now().toString(36) + Math.random().toString(36).substr(2, 5));
-    return `tnx_${Date.now()}_${Math.random() * 1000}`;
-};
-
 const createBookingService = async (payload: Partial<IBooking>, userID: string) => {
     const session = await Booking.startSession();
     session.startTransaction();
+    
     try {
         const transactionId = transactionGet();
         const user = await User.findById(userID);
@@ -98,7 +95,7 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
             phone: userPhone,
             transactionId,
             address: userAddress,
-        }
+        };
         const SSLPayment = await SSLService.sslPaymentInit(sslPayload);
         // Commit transaction
         await session.commitTransaction();
