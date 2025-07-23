@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import httpStatus from 'http-status';
 import { JwtPayload } from "jsonwebtoken";
 import { User } from "../user/user.model";
-import { IUser } from "../user/user.interface";
+import { IAuthProvider, IUser } from "../user/user.interface";
 import { AppError } from "../../errors/AppError";
 import { createNewAccessTokenWithRefreshToken, userCreateToken } from "../../utils/createUserToken";
 
@@ -54,7 +54,7 @@ const credentialsLoginRefresh = async (refreshToken: string) => {
 const changePassword = async (oldPassword: string, newPassword: string, decodedToken: JwtPayload) => {
     const user = await User.findById(decodedToken.userId);
     const isOldPasswordMatch = await bcrypt.compare(oldPassword, user!.password as string);
-    
+
     if (!isOldPasswordMatch) {
         throw new AppError(httpStatus.UNAUTHORIZED, "The current password you entered is incorrect");
     };
@@ -65,7 +65,7 @@ const changePassword = async (oldPassword: string, newPassword: string, decodedT
 const resetNewPassword = async (oldPassword: string, newPassword: string, decodedToken: JwtPayload) => {
     const user = await User.findById(decodedToken.userId);
     const isOldPasswordMatch = await bcrypt.compare(oldPassword, user!.password as string);
-    
+
     if (!isOldPasswordMatch) {
         throw new AppError(httpStatus.UNAUTHORIZED, "The current password you entered is incorrect");
     };
@@ -73,9 +73,32 @@ const resetNewPassword = async (oldPassword: string, newPassword: string, decode
     await user!.save();
 };
 
+const setPassword = async (userId: string, plainPassword: string) => {
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, "User not found");
+    };
+
+    if (user.password && user.auths.some(providerObjects => providerObjects.provider === "google")) {
+        throw new AppError(httpStatus.BAD_REQUEST, "You signed up with Google. To login with email and password, please login with Google once and set a password from your profile settings.");
+    };
+
+    const hashPassword = await bcrypt.hash(plainPassword, 10);
+    const credentialProvider: IAuthProvider = {
+        provider: "credentials",
+        providerId: user.email
+    };
+    const auths: IAuthProvider[] = [...user.auths, credentialProvider];
+
+    user.auths = auths;
+    user.password = hashPassword;
+    await user.save();
+};
+
 export const authService = {
     credentialsLogin,
     credentialsLoginRefresh,
     changePassword,
+    setPassword,
     resetNewPassword,
 };

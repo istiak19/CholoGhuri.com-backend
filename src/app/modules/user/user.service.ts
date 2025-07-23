@@ -6,12 +6,22 @@ import { AppError } from "../../errors/AppError";
 import { IAuthProvider, IUser } from "./user.interface";
 
 const userAllGetService = async () => {
-    const user = await User.find();
+    const user = await User.find().select("-password");
     const totalUser = await User.countDocuments();
     return {
         user,
         totalUser
     };
+};
+
+const userSingleGetService = async (userId: string) => {
+    const user = await User.findById(userId).select("-password");
+    return user;
+};
+
+const userGetMeService = async (userId: string) => {
+    const user = await User.findById(userId).select("-password");
+    return user;
 };
 
 const userCreateService = async (payload: Partial<IUser>) => {
@@ -61,6 +71,8 @@ const userUpdateService = async (userId: string, payload: Partial<IUser>, decode
 
 export const userServices = {
     userAllGetService,
+    userSingleGetService,
+    userGetMeService,
     userCreateService,
     userUpdateService
 };

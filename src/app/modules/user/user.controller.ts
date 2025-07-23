@@ -18,6 +18,28 @@ const allGetUser = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const userSingleGet = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const user = await userServices.userGetMeService(id);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "User retrieved successfully",
+        data: user
+    });
+});
+
+const GetUserMe = catchAsync(async (req: Request, res: Response) => {
+    const decodedToken = req.user as JwtPayload;
+    const user = await userServices.userGetMeService(decodedToken.userId);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "User retrieved successfully",
+        data: user
+    });
+});
+
 // const createUser = async (req: Request, res: Response, next: NextFunction) => {
 //     try {
 //         // throw new AppError(httpStatus.BAD_REQUEST, "fake")
@@ -59,7 +81,7 @@ const UpdateUser = catchAsync(async (req: Request, res: Response) => {
     const updateUser = await userServices.userUpdateService(id, info, verifyTokenUser as JwtPayload);
     sendResponse(res, {
         success: true,
-        statusCode: httpStatus.CREATED,
+        statusCode: httpStatus.OK,
         message: "User updated successfully",
         data: updateUser
     });
@@ -67,6 +89,8 @@ const UpdateUser = catchAsync(async (req: Request, res: Response) => {
 
 export const userControllers = {
     allGetUser,
+    userSingleGet,
+    GetUserMe,
     createUser,
     UpdateUser,
 };
