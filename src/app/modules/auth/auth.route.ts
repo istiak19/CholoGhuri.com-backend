@@ -10,8 +10,12 @@ router.post("/login", authController.credentialsLogin);
 router.post("/refresh-token", authController.refreshTokenLogin);
 router.post("/logout", authController.logout);
 router.post("/change-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.changePassword);
-router.post("/reset-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.resetPassword);
 router.post("/set-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.setPassword);
+
+// Frontend -> forget-password -> email -> user status check -> short expiration token (valid for 10 min) -> email -> Fronted Link http://localhost:5173/reset-password?email=saminisrar1@gmail.com&token=token -> frontend e  query theke user er email and token extract anbo -> new password user theke nibe -> backend er /reset-password api -> authorization = token -> newPassword -> token verify -> password hash -> save user password   
+router.post("/forget-password", authController.forgetPassword);
+router.post("/reset-password", checkAuth("ADMIN", "SUPER_ADMIN", "USER", "GUIDE"), authController.resetPassword);
+
 
 // Google login
 router.get("/google", async (req: Request, res: Response, next: NextFunction) => {
