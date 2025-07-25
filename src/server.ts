@@ -4,6 +4,7 @@ import { Server } from "http";
 import mongoose from "mongoose";
 import { envVars } from "./app/config/env.config";
 import { seedSuperAdmin } from "./app/utils/super.admin";
+import { redisConnected } from "./app/config/redis.config";
 
 const port = envVars.PORT;
 let server: Server;
@@ -21,8 +22,9 @@ async function startServer() {
 };
 
 (async () => {
-    startServer();
-    seedSuperAdmin();
+    await redisConnected();
+    await startServer();
+    await seedSuperAdmin();
 })();
 
 process.on("SIGINT", () => {
