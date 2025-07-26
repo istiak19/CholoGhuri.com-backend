@@ -1,43 +1,31 @@
-<!DOCTYPE html>
-<html>
+<div
+    style="font-family: Arial, sans-serif; color: #333; margin: 20px; border: 1px solid #ddd; padding: 20px; border-radius: 10px; background-color: #f9f9f9;">
+    <h2 style="text-align: center; color: #4CAF50;">Tour Booking Invoice</h2>
+    <hr style="border: 1px solid #ddd; margin: 20px 0;">
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Booking Invoice</title>
-</head>
+    <p><strong style="color: #555;">Customer:</strong> <span style="color: #777;">
+            <%= customerName ?? 'N/A' %>
+        </span></p>
+    <p><strong style="color: #555;">Tour:</strong> <span style="color: #777;">
+            <%= tourName ?? 'N/A' %>
+        </span></p>
+    <p><strong style="color: #555;">Guests:</strong> <span style="color: #777;">
+            <%= guestCount ?? 0 %>
+        </span></p>
 
-<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; color: #333;">
-    <div
-        style="max-width: 600px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-        <h1 style="color: #2c3e50;">Invoice for Booking</h1>
+    <p><strong style="color: #555;">Booking Date:</strong> <span style="color: #777;">
+            <%= date ? new Date(date).toLocaleDateString() : 'N/A' %>
+        </span></p>
+    <p><strong style="color: #555;">Payment ID:</strong> <span style="color: #777;">
+            <%= paymentId ?? 'N/A' %>
+        </span></p>
 
-        <p><strong>Customer Name:</strong>
-            <%= customerName %>
-        </p>
-        <p><strong>Tour Name:</strong>
-            <%= tourName %>
-        </p>
-        <p><strong>Guests:</strong>
-            <%= guestCount %>
-        </p>
-        <p><strong>Booking Date:</strong>
-            <%= date %>
-        </p>
-        <p><strong>Payment ID:</strong>
-            <%= paymentId %>
-        </p>
-        <p><strong>Amount Paid:</strong> $<%= amount %>
-        </p>
+    <p style="font-size: 1.2em; font-weight: bold; color: #333;">
+        <strong>Total Amount Paid:</strong> $<%= amount ? amount.toFixed(2) : '0.00' %>
+    </p>
 
-        <p style="margin-top: 30px;">Thank you for your booking! We appreciate your trust in our service.</p>
+    <hr style="border: 1px solid #ddd; margin: 20px 0;">
 
-        <p style="margin-top: 20px;">
-            <a href="<%= downloadLink %>"
-                style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: #fff; text-decoration: none; border-radius: 5px;">
-                Download Invoice PDF
-            </a>
-        </p>
-    </div>
-</body>
-
-</html>
+    <p style="text-align: center; font-size: 0.9em; color: #aaa;">Thank you for booking with us! We hope you have an
+        amazing experience.</p>
+</div>
