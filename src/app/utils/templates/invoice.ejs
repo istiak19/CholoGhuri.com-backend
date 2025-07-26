@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Booking Invoice</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; color: #333;">
+    <div
+        style="max-width: 600px; margin: auto; background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+        <h1 style="color: #2c3e50;">Invoice for Booking</h1>
+
+        <p><strong>Customer Name:</strong>
+            <%= customerName %>
+        </p>
+        <p><strong>Tour Name:</strong>
+            <%= tourName %>
+        </p>
+        <p><strong>Guests:</strong>
+            <%= guestCount %>
+        </p>
+        <p><strong>Booking Date:</strong>
+            <%= date %>
+        </p>
+        <p><strong>Payment ID:</strong>
+            <%= paymentId %>
+        </p>
+        <p><strong>Amount Paid:</strong> $<%= amount %>
+        </p>
+
+        <p style="margin-top: 30px;">Thank you for your booking! We appreciate your trust in our service.</p>
+
+        <p style="margin-top: 20px;">
+            <a href="<%= downloadLink %>"
+                style="display: inline-block; padding: 10px 20px; background-color: #007BFF; color: #fff; text-decoration: none; border-radius: 5px;">
+                Download Invoice PDF
+            </a>
+        </p>
+    </div>
+</body>
+
+</html>

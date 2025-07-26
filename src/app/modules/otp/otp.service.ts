@@ -15,11 +15,11 @@ const sendOTP = async (email: string, name: string) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-        throw new AppError(httpStatus.UNAUTHORIZED, "User not found")
+        throw new AppError(httpStatus.UNAUTHORIZED, "User not found");
     };
 
     if (user.isVerified) {
-        throw new AppError(httpStatus.BAD_REQUEST, "You are already verified")
+        throw new AppError(httpStatus.BAD_REQUEST, "You are already verified");
     };
 
     const otp = generateOTP();
@@ -46,11 +46,11 @@ const verifyOTP = async (email: string, otp: string) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-        throw new AppError(httpStatus.UNAUTHORIZED, "User not found")
+        throw new AppError(httpStatus.UNAUTHORIZED, "User not found");
     };
 
     if (user.isVerified) {
-        throw new AppError(httpStatus.BAD_REQUEST, "You are already verified")
+        throw new AppError(httpStatus.BAD_REQUEST, "You are already verified");
     };
 
     const redisKey = `otp:${email}`;
