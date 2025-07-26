@@ -8,4 +8,5 @@ export interface IBooking {
     address: string;
     status: "PENDING" | "COMPLETE" | "CANCELLED" | "FAILED";
     payment?: Types.ObjectId;
+    createdAt: Date
 };
