@@ -5,6 +5,10 @@ import { AppError } from "../../errors/AppError";
 import { Booking } from "../booking/booking.model";
 import { SSLService } from '../SSLCommerz/SSLCommerz.service';
 import { ISSLCommerz } from '../SSLCommerz/SSLCommerz.interface';
+import { generateInvoicePDF, InvoiceData } from '../../utils/invoice';
+import { IUser } from '../user/user.interface';
+import { ITour } from '../tour/tour.interface';
+import { sendMail } from '../../utils/sendMail';
 
 const initPayment = async (id: string) => {
     const payment = await Payment.findOne({ bookingID: id });
@@ -45,13 +49,48 @@ const successPayment = async (query: Record<string, string>) => {
                 session
             }
         );
-        await Booking.findByIdAndUpdate(updatedPayment?.bookingID,
+        const updatedBooking = await Booking.findByIdAndUpdate(updatedPayment?.bookingID,
             { status: "COMPLETE" },
             {
                 runValidators: true,
                 session
             }
-        );
+        )
+            .populate("tour", "title")
+            .populate("user", "name email");
+
+        if (!updatedBooking) {
+            throw new AppError(httpStatus.BAD_REQUEST, "Booking not found");
+        };
+
+        if (!updatedPayment) {
+            throw new AppError(httpStatus.BAD_REQUEST, "Payment not found");
+        };
+
+        const invoiceData: InvoiceData = {
+            customerName: (updatedBooking.user as unknown as IUser).name,
+            tourName: (updatedBooking.tour as unknown as ITour).title,
+            paymentId: updatedPayment?.transactionId ?? '',
+            amount: updatedPayment?.amount,
+            date: updatedBooking.createdAt as Date,
+            guestCount: updatedBooking.guestCount,
+        };
+
+        const pdfBuffer = await generateInvoicePDF(invoiceData);
+
+        await sendMail({
+            to: (updatedBooking.user as unknown as IUser).email,
+            subject: "Your Invoice",
+            templateName: "invoice",
+            templateData: invoiceData,
+            attachments: [
+                {
+                    content: pdfBuffer,
+                    filename: "invoice.pdf",
+                    contentType: "application/pdf"
+                },
+            ],
+        });
 
         await session.commitTransaction();
         session.endSession();
