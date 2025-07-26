@@ -43,7 +43,7 @@ const getSingleBookingService = async (id: string) => {
 const createBookingService = async (payload: Partial<IBooking>, userID: string) => {
     const session = await Booking.startSession();
     session.startTransaction();
-    
+
     try {
         const transactionId = transactionGet();
         const user = await User.findById(userID);
@@ -68,14 +68,21 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
             }
         ], { session });
 
-        const payment = await Payment.create([
-            {
-                bookingID: booking[0]._id,
-                status: 'UNPAID',
-                transactionId,
-                amount
-            }
-        ], { session });
+        if (!booking || !booking.length || !booking[0]._id) {
+            throw new AppError(400, "Booking ID is missing or invalid.");
+        }
+
+        const payment = await Payment.create(
+            [
+                {
+                    bookingID: booking[0]._id,
+                    status: "UNPAID",
+                    transactionId,
+                    amount,
+                },
+            ],
+            { session }
+        );
 
         const updateBookingService = await Booking.findByIdAndUpdate(booking[0]._id, { payment: payment[0]._id }, {
             new: true,
