@@ -1,0 +1,48 @@
+import httpStatus from 'http-status';
+import crypto from "crypto";
+import { User } from "../user/user.model";
+import { AppError } from "../../errors/AppError";
+import { redisClient } from '../../config/redis.config';
+import { sendMail } from '../../utils/sendMail';
+
+const OTP_EXPIRATION_SECONDS = 2 * 60;
+const generateOTP = (length = 6) => {
+    const otp = crypto.randomInt(10 ** (length - 1), 10 ** length).toString();
+    return otp;
+};
+
+const sendOTP = async (email: string, name: string) => {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        throw new AppError(httpStatus.UNAUTHORIZED, "User not found")
+    };
+
+    if (user.isVerified) {
+        throw new AppError(httpStatus.BAD_REQUEST, "You are already verified")
+    };
+
+    const otp = generateOTP();
+    const redisKey = `otp:${email}`;
+    await redisClient.set(redisKey, otp, {
+        expiration: {
+            type: "EX",
+            value: OTP_EXPIRATION_SECONDS
+        }
+    });
+    
+    await sendMail({
+        to: email,
+        subject: "Your OTP Code",
+        templateName: "otp",
+        templateData: {
+            name: name,
+            otp: otp
+        }
+    });
+};
+
+
+export const otpService = {
+    sendOTP,
+};

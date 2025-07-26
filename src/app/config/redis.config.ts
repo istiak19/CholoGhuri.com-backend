@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import { createClient } from 'redis';
 import { envVars } from './env.config';
 
-const redisClient = createClient({
+export const redisClient = createClient({
     username: 'default',
     password: envVars.REDIS_OTP.REDIS_PASSWORD,
     socket: {
