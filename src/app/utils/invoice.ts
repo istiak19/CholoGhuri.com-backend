@@ -2,7 +2,7 @@
 import PDFDocument from 'pdfkit';
 import { AppError } from '../errors/AppError';
 
-export interface InvoiceData {
+export interface IInvoiceData {
     customerName: string;
     tourName: string;
     paymentId: string;
@@ -12,7 +12,7 @@ export interface InvoiceData {
     downloadLink?: string;
 };
 
-export const generateInvoicePDF = async (data: InvoiceData): Promise<Buffer> => {
+export const generateInvoicePDF = async (data: IInvoiceData): Promise<Buffer> => {
     try {
         return new Promise((resolve, reject) => {
             const doc = new PDFDocument({ size: 'A4', margin: 50 });
