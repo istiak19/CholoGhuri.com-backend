@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Booking } from "../booking/booking.model";
+import { Payment } from "../payment/payment.model";
 import { Tour } from "../tour/tour.model";
 import { User } from "../user/user.model";
 
@@ -290,7 +291,61 @@ const getBooking = async () => {
 };
 
 const getPayment = async () => {
-    return {}
+    const totalPaymentPromise = Payment.countDocuments();
+    const totalPaymentByStatusPromise = Payment.aggregate([
+        {
+            $group: {
+                _id: "$status",
+                count: { $sum: 1 }
+            }
+        }
+    ]);
+
+    const totalRevenuePromise = Payment.aggregate([
+        {
+            $match: { status: "PAID" }
+        },
+        {
+            $group: {
+                _id: null,
+                totalRevenue: { $sum: "$amount" }
+            }
+        }
+    ]);
+
+    const avgPaymentAmountPromise = Payment.aggregate([
+        {
+            $group: {
+                _id: null,
+                totalRevenue: { $avg: "$amount" }
+            }
+        }
+    ]);
+
+    const paymentGatewayDataPromise = Payment.aggregate([
+        {
+            $group: {
+                _id: { $ifNull: ["$paymentGatewayData.status", "UNKNOWN"] },
+                count: { $sum: 1 }
+            }
+        }
+    ]);
+
+    const [totalPayment, totalPaymentByStatus, totalRevenue, avgPaymentAmount, paymentGatewayData] = await Promise.all([
+        totalPaymentPromise,
+        totalPaymentByStatusPromise,
+        totalRevenuePromise,
+        avgPaymentAmountPromise,
+        paymentGatewayDataPromise
+    ]);
+
+    return {
+        totalPayment,
+        totalPaymentByStatus,
+        totalRevenue,
+        avgPaymentAmount,
+        paymentGatewayData
+    };
 };
 
 export const statisticsService = {
@@ -299,3 +354,23 @@ export const statisticsService = {
     getBooking,
     getPayment
 };
+
+/**
+ * await Tour.updateMany(
+        {
+            // Only update where tourType or division is stored as a string
+            $or: [
+                { tourType: { $type: "string" } },
+                { division: { $type: "string" } }
+            ]
+        },
+        [
+            {
+                $set: {
+                    tourType: { $toObjectId: "$tourType" },
+                    division: { $toObjectId: "$division" }
+                }
+            }
+        ]
+    );
+ */
