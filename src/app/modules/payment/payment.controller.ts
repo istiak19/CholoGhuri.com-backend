@@ -4,7 +4,20 @@ import { Request, Response } from "express";
 import { paymentService } from './payment.service';
 import { catchAsync } from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
+import { JwtPayload } from 'jsonwebtoken';
 
+
+const getInvoicePayment = catchAsync(async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const decodedToken = req.user as JwtPayload;
+    const result = await paymentService.getInvoicePayment(id,decodedToken);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Payment invoice retrieved successfully.",
+        data: result
+    });
+});
 
 const initPayment = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.bookingID;
@@ -42,6 +55,7 @@ const cancelPayment = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const paymentController = {
+    getInvoicePayment,
     successPayment,
     failPayment,
     cancelPayment,

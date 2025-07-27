@@ -45,28 +45,40 @@ const userCreateService = async (payload: Partial<IUser>) => {
 };
 
 const userUpdateService = async (userId: string, payload: Partial<IUser>, decodedToken: JwtPayload) => {
+    if (decodedToken.role === "USER" || decodedToken.role === "GUIDE") {
+        if (decodedToken.userId !== userId) {
+            throw new AppError(httpStatus.UNAUTHORIZED, "You are not unauthorized");
+        };
+    };
+
     const isExistUser = await User.findById(userId);
     if (!isExistUser) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found");
     };
+
+    if (decodedToken.role === "ADMIN" && isExistUser.role === "SUPER_ADMIN") {
+        throw new AppError(httpStatus.FORBIDDEN, "Only SUPER_ADMIN can assign this role");
+    };
+
     if (payload.role) {
         if (decodedToken.role === "USER" || decodedToken.role === "GUIDE") {
             throw new AppError(httpStatus.FORBIDDEN, "Unauthorized access to change role");
         };
     };
-    if (payload.role === "SUPER_ADMIN" && decodedToken.role === "ADMIN") {
-        throw new AppError(httpStatus.FORBIDDEN, "Only SUPER_ADMIN can assign this role");
-    };
+
+    // if (payload.role === "SUPER_ADMIN" && decodedToken.role === "ADMIN") {
+    //     throw new AppError(httpStatus.FORBIDDEN, "Only SUPER_ADMIN can assign this role");
+    // };
+
     if (payload.isActive || payload.isDeleted || payload.isVerified) {
         if (decodedToken.role === "USER" || decodedToken.role === "GUIDE") {
             throw new AppError(httpStatus.FORBIDDEN, "Unauthorized access to modify user status");
         };
     };
-    if (payload.password) {
-        payload.password = await bcrypt.hash(payload.password, 10);
-    };
+
     const userUpdated = await User.findByIdAndUpdate(userId, payload, { new: true, runValidators: true });
-    return userUpdated
+
+    return userUpdated;
 };
 
 export const userServices = {
