@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.divisionRouters = void 0;
+const express_1 = require("express");
+const checkAuth_1 = require("../../middlewares/checkAuth");
+const division_controller_1 = require("./division.controller");
+const validateRequest_1 = require("../../middlewares/validateRequest");
+const division_validation_1 = require("./division.validation");
+const multer_config_1 = require("../../config/multer.config");
+const router = (0, express_1.Router)();
+router.get("/", division_controller_1.divisionController.getDivision);
+router.post("/create", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), multer_config_1.multerUpload.single("file"), (0, validateRequest_1.validateRequest)(division_validation_1.createDivisionZodSchema), division_controller_1.divisionController.createDivision);
+router.get("/:slug", division_controller_1.divisionController.getSingleDivision);
+router.patch("/:id", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), multer_config_1.multerUpload.single("file"), (0, validateRequest_1.validateRequest)(division_validation_1.updatedDivisionZodSchema), division_controller_1.divisionController.updateDivision);
+router.delete("/:id", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), division_controller_1.divisionController.deleteDivision);
+exports.divisionRouters = router;
