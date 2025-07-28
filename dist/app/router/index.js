@@ -10,6 +10,7 @@ const payment_route_1 = require("../modules/payment/payment.route");
 const division_route_1 = require("../modules/division/division.route");
 const otp_route_1 = require("../modules/otp/otp.route");
 const statistics_route_1 = require("../modules/statistics/statistics.route");
+const guide_routes_1 = require("../modules/guide/guide.routes");
 exports.router = (0, express_1.Router)();
 const modulesRouter = [
     {
@@ -43,6 +44,10 @@ const modulesRouter = [
     {
         path: "/statistics",
         route: statistics_route_1.statisticsRoutes
+    },
+    {
+        path: "/guide",
+        route: guide_routes_1.guideRoutes
     },
 ];
 modulesRouter.forEach((route) => {

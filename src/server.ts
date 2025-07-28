@@ -27,6 +27,18 @@ async function startServer() {
     await seedSuperAdmin();
 })();
 
+process.on("SIGTERM", () => {
+    console.log("SIGTERM received. Gracefully shutting down...");
+
+    if (server) {
+        server.close(() => {
+            process.exit(1)
+        });
+    }
+
+    process.exit(1)
+})
+
 process.on("SIGINT", () => {
     console.warn("SIGINT received. Gracefully shutting down...");
     if (server) {
