@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tourRouters = void 0;
+const express_1 = require("express");
+const tour_controller_1 = require("./tour.controller");
+const checkAuth_1 = require("../../middlewares/checkAuth");
+const validateRequest_1 = require("./../../middlewares/validateRequest");
+const tour_validation_1 = require("./tour.validation");
+const multer_config_1 = require("../../config/multer.config");
+const router = (0, express_1.Router)();
+router.get("/tour-types", tour_controller_1.tourController.getTourType);
+router.post("/create-tour-type", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), (0, validateRequest_1.validateRequest)(tour_validation_1.createTourTypeZodSchema), tour_controller_1.tourController.createTourType);
+router.patch("/tour-types/:id", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), (0, validateRequest_1.validateRequest)(tour_validation_1.updateTourTypeZodSchema), tour_controller_1.tourController.updateTourType);
+router.delete("/tour-types/:id", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), tour_controller_1.tourController.deleteTourType);
+// Tour route
+router.get("/", tour_controller_1.tourController.getTour);
+router.post("/create", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), multer_config_1.multerUpload.array("files"), (0, validateRequest_1.validateRequest)(tour_validation_1.createTourZodSchema), tour_controller_1.tourController.createTour);
+router.patch("/:id", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), multer_config_1.multerUpload.array("files"), (0, validateRequest_1.validateRequest)(tour_validation_1.updatedTourZodSchema), tour_controller_1.tourController.updateTour);
+router.delete("/:id", (0, checkAuth_1.checkAuth)("ADMIN", "SUPER_ADMIN"), tour_controller_1.tourController.deleteTour);
+exports.tourRouters = router;

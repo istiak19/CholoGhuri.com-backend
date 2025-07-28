@@ -21,6 +21,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
+app.set("trust proxy", 1);
 app.use(cors({
     origin: [
         envVars.FRONTEND_URL,
@@ -31,7 +32,7 @@ app.use(cors({
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("PH Tour Management System Backend API is running successfully!");
+    res.send("CholoGhuri.com Backend API is running successfully!");
 });
 
 app.use(globalErrorHandler);

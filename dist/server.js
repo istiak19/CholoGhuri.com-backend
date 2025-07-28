@@ -12,16 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const dotenv_1 = __importDefault(require("dotenv"));
+/* eslint-disable no-console */
 const app_1 = __importDefault(require("./app"));
-dotenv_1.default.config();
-const port = process.env.PORT;
+const mongoose_1 = __importDefault(require("mongoose"));
+const env_config_1 = require("./app/config/env.config");
+const super_admin_1 = require("./app/utils/super.admin");
+const redis_config_1 = require("./app/config/redis.config");
+const port = env_config_1.envVars.PORT;
 let server;
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield mongoose_1.default.connect(process.env.MONGO_URI);
+            yield mongoose_1.default.connect(env_config_1.envVars.DB_URL);
             console.log("Connected to MongoDB!");
             server = app_1.default.listen(port, () => {
                 console.log(`Server is running at http://localhost:${port}`);
@@ -33,9 +35,13 @@ function startServer() {
     });
 }
 ;
-startServer();
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield (0, redis_config_1.redisConnected)();
+    yield startServer();
+    yield (0, super_admin_1.seedSuperAdmin)();
+}))();
 process.on("SIGINT", () => {
-    console.warn("💥SIGINT received. Gracefully shutting down...");
+    console.warn("SIGINT received. Gracefully shutting down...");
     if (server) {
         server.close(() => {
             process.exit(0);
@@ -46,7 +52,7 @@ process.on("SIGINT", () => {
     }
 });
 process.on("unhandledRejection", (err) => {
-    console.error("🚨Unhandled Promise Rejection detected. Shutting down the server...");
+    console.error("Unhandled Promise Rejection detected. Shutting down the server...");
     console.error("Error details:", err);
     if (server) {
         server.close(() => {
@@ -57,7 +63,7 @@ process.on("unhandledRejection", (err) => {
 });
 // Promise.reject(new Error("I forgot to catch this promise"));
 process.on("uncaughtException", (err) => {
-    console.error("💥Uncaught Exception detected. Shutting down the server...");
+    console.error("Uncaught Exception detected. Shutting down the server...");
     console.error("Error details:", err);
     if (server) {
         server.close(() => {
