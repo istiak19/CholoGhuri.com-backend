@@ -5,6 +5,7 @@ import { paymentService } from './payment.service';
 import { catchAsync } from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { JwtPayload } from 'jsonwebtoken';
+import { SSLService } from '../SSLCommerz/SSLCommerz.service';
 
 
 const getInvoicePayment = catchAsync(async (req: Request, res: Response) => {
@@ -26,6 +27,17 @@ const initPayment = catchAsync(async (req: Request, res: Response) => {
         success: true,
         statusCode: httpStatus.OK,
         message: "Payment done successfully",
+        data: result
+    });
+});
+
+const validatePayment = catchAsync(async (req: Request, res: Response) => {
+    const result = await SSLService.validatePayment(req.body);
+    console.log("tumi",req.body);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "Payment validate done successfully",
         data: result
     });
 });
@@ -59,5 +71,6 @@ export const paymentController = {
     successPayment,
     failPayment,
     cancelPayment,
-    initPayment
+    initPayment,
+    validatePayment
 };
