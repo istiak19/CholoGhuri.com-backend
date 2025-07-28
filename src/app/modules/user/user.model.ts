@@ -47,7 +47,17 @@ const userSchema = new Schema<IUser>({
         enum: ["Active", "Inactive"],
         default: "Active"
     },
-    auths: [authProviderSchema]
+    auths: [authProviderSchema],
+    bookings: {
+        type: [Schema.Types.ObjectId],
+        ref: "booking",
+        default: []
+    },
+    //  guides: {
+    //     type: [Schema.Types.ObjectId],
+    //     ref: "guide",
+    //     default: []
+    // }
 }, {
     versionKey: false,
     timestamps: true

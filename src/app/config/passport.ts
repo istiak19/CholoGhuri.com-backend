@@ -39,8 +39,7 @@ passport.use(
                     // throw new AppError(httpStatus.BAD_REQUEST, "User is deleted")
                     return done("User is deleted");
                 };
-
-                console.log(isExistUser)
+                
                 const isGoogleAuthenticated = isExistUser.auths.some(providerObjects => providerObjects.provider == "google");
 
                 if (isGoogleAuthenticated && !isExistUser.password) {

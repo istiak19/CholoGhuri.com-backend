@@ -47,7 +47,17 @@ const userSchema = new mongoose_1.Schema({
         enum: ["Active", "Inactive"],
         default: "Active"
     },
-    auths: [authProviderSchema]
+    auths: [authProviderSchema],
+    bookings: {
+        type: [mongoose_1.Schema.Types.ObjectId],
+        ref: "booking",
+        default: []
+    },
+    //  guides: {
+    //     type: [Schema.Types.ObjectId],
+    //     ref: "guide",
+    //     default: []
+    // }
 }, {
     versionKey: false,
     timestamps: true

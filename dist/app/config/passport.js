@@ -50,7 +50,6 @@ passport_1.default.use(new passport_local_1.Strategy({
             return done("User is deleted");
         }
         ;
-        console.log(isExistUser);
         const isGoogleAuthenticated = isExistUser.auths.some(providerObjects => providerObjects.provider == "google");
         if (isGoogleAuthenticated && !isExistUser.password) {
             // return done(null, false, { message: "You signed up with Google. To login with email and password, please login with Google once and set a password from your profile settings." })
