@@ -50,6 +50,7 @@ const getSingleBookingService = (id) => __awaiter(void 0, void 0, void 0, functi
     return booking;
 });
 const createBookingService = (payload, userID) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const session = yield booking_model_1.Booking.startSession();
     session.startTransaction();
     try {
@@ -69,6 +70,9 @@ const createBookingService = (payload, userID) => __awaiter(void 0, void 0, void
         const booking = yield booking_model_1.Booking.create([
             Object.assign({ user: userID, status: "PENDING" }, payload)
         ], { session });
+        // user data in booking id
+        const bookingID = [...((_a = user.bookings) !== null && _a !== void 0 ? _a : []), booking[0]._id];
+        yield user_model_1.User.findByIdAndUpdate(user._id, { bookings: bookingID }, { runValidators: true, session });
         if (!booking || !booking.length || !booking[0]._id) {
             throw new AppError_1.AppError(400, "Booking ID is missing or invalid.");
         }

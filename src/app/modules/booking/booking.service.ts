@@ -68,6 +68,10 @@ const createBookingService = async (payload: Partial<IBooking>, userID: string) 
             }
         ], { session });
 
+        // user data in booking id
+        const bookingID = [...(user.bookings ?? []), booking[0]._id];
+        await User.findByIdAndUpdate(user._id, { bookings: bookingID }, { runValidators: true, session });
+
         if (!booking || !booking.length || !booking[0]._id) {
             throw new AppError(400, "Booking ID is missing or invalid.");
         }
