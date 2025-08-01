@@ -1,12 +1,12 @@
 # 🏞️ CholoGhuri.com Backend
 
-A backend system powering **[CholoGhuri.com](https://www.chologhuri.com)** — a travel and tour booking platform with robust modules for users, bookings, payments, authentication, tours, and divisions. Built with **Node.js**, **Express**, **TypeScript**, and **MongoDB**.
+A backend system powering **[CholoGhuri.com](https://chologhuri-com.vercel.app/)** — a travel and tour booking platform with robust modules for users, bookings, payments, authentication, tours, and divisions. Built with **Node.js**, **Express**, **TypeScript**, and **MongoDB**.
 
 ---
 
 ## 🌐 Project Website
 
-[https://www.chologhuri.com](https://www.chologhuri.com)
+[CholoGhuri.com](https://chologhuri-com.vercel.app/)
 
 ---
 
