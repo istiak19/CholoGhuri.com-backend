@@ -13,5 +13,4 @@ router.get("/:slug", divisionController.getSingleDivision);
 router.patch("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), multerUpload.single("file"), validateRequest(updatedDivisionZodSchema), divisionController.updateDivision);
 router.delete("/:id", checkAuth("ADMIN", "SUPER_ADMIN"), divisionController.deleteDivision);
 
-
 export const divisionRouters = router;
