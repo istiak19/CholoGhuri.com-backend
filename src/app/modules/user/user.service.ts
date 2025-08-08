@@ -35,12 +35,13 @@ const userCreateService = async (payload: Partial<IUser>) => {
         provider: "credentials",
         providerId: email as string
     };
-    const user = await User.create({
+    const createdUser = await User.create({
         email,
         password: hashPassword,
         auths: [auth],
         ...rest
     });
+    const user = await User.findById(createdUser._id).select("-password");
     return user;
 };
 
