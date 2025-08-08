@@ -55,7 +55,8 @@ const userCreateService = (payload) => __awaiter(void 0, void 0, void 0, functio
         provider: "credentials",
         providerId: email
     };
-    const user = yield user_model_1.User.create(Object.assign({ email, password: hashPassword, auths: [auth] }, rest));
+    const createdUser = yield user_model_1.User.create(Object.assign({ email, password: hashPassword, auths: [auth] }, rest));
+    const user = yield user_model_1.User.findById(createdUser._id).select("-password");
     return user;
 });
 const userUpdateService = (userId, payload, decodedToken) => __awaiter(void 0, void 0, void 0, function* () {
