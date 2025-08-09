@@ -24,7 +24,7 @@ const generateOTP = (length = 6) => {
     const otp = crypto_1.default.randomInt(10 ** (length - 1), 10 ** length).toString();
     return otp;
 };
-const sendOTP = (email, name) => __awaiter(void 0, void 0, void 0, function* () {
+const sendOTP = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.User.findOne({ email });
     if (!user) {
         throw new AppError_1.AppError(http_status_1.default.UNAUTHORIZED, "User not found");
@@ -47,7 +47,6 @@ const sendOTP = (email, name) => __awaiter(void 0, void 0, void 0, function* () 
         subject: "Your OTP Code",
         templateName: "otp",
         templateData: {
-            name: name,
             otp: otp
         }
     });

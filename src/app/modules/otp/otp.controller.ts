@@ -5,24 +5,24 @@ import sendResponse from "../../utils/sendResponse";
 import { otpService } from './otp.service';
 
 const sendOTP = catchAsync(async (req: Request, res: Response) => {
-    const { email, name } = req.body
-    await otpService.sendOTP(email, name)
+    const { email } = req.body
+    const result = await otpService.sendOTP(email);
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,
         message: "OTP sent successfully",
-        data: null
+        data: result
     });
 });
 
 const verifyOTP = catchAsync(async (req: Request, res: Response) => {
     const { email, otp } = req.body;
-    await otpService.verifyOTP(email, otp);
+    const result = await otpService.verifyOTP(email, otp);
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,
         message: "OTP verify successfully",
-        data: null
+        data: result
     });
 });
 
