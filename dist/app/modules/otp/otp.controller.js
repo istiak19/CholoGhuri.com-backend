@@ -18,23 +18,23 @@ const catchAsync_1 = require("../../utils/catchAsync");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const otp_service_1 = require("./otp.service");
 const sendOTP = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, name } = req.body;
-    yield otp_service_1.otpService.sendOTP(email, name);
+    const { email } = req.body;
+    const result = yield otp_service_1.otpService.sendOTP(email);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
         message: "OTP sent successfully",
-        data: null
+        data: result
     });
 }));
 const verifyOTP = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, otp } = req.body;
-    yield otp_service_1.otpService.verifyOTP(email, otp);
+    const result = yield otp_service_1.otpService.verifyOTP(email, otp);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
         message: "OTP verify successfully",
-        data: null
+        data: result
     });
 }));
 exports.otpController = {
