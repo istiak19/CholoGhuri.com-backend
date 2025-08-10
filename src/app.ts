@@ -13,6 +13,7 @@ const app: Application = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(session({
     secret: envVars.EXPRESS_SESSION_SECRET,
     resave: false,
@@ -20,7 +21,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cookieParser());
 app.set("trust proxy", 1);
 app.use(cors({
     origin: [
