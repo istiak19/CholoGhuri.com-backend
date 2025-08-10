@@ -155,7 +155,6 @@ const googleCallback = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void
         redirect = redirect.slice(1);
     }
     ;
-    // console.log(user)
     if (!user) {
         throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, "User not found");
     }

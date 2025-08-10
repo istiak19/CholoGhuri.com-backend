@@ -148,7 +148,6 @@ const googleCallback = catchAsync(async (req: Request, res: Response) => {
         redirect = redirect.slice(1);
     };
 
-    // console.log(user)
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, "User not found");
     }
