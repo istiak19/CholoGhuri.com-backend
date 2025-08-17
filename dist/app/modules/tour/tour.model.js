@@ -52,10 +52,12 @@ const tourSchema = new mongoose_1.Schema({
         type: Date
     },
     departureLocation: {
-        type: String
+        type: String,
+        required: true
     },
     arrivalLocation: {
-        type: String
+        type: String,
+        required: true
     },
     included: {
         type: [String],

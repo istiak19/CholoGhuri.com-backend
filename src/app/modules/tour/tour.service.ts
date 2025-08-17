@@ -111,7 +111,9 @@ const getTourService = async (query: Record<string, string>) => {
         .sort()
         .select()
         .pagination()
-        .build();
+        .build()
+        .populate("division", "_id name")
+        // .populate("tourType", "_id name");
     const metaData = await queryBuilder.meta()
     return {
         tour,
@@ -168,7 +170,7 @@ const updateTourService = async (id: string, payload: Partial<ITour>) => {
     if (payload.deleteImages && payload.deleteImages.length > 0 && existingTour.images && existingTour.images.length > 0) {
         await Promise.all(payload.deleteImages.map(url => deleteImageFromCLoudinary(url)));
     };
-    
+
     return tour;
 };
 

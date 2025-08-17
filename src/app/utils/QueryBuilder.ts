@@ -33,8 +33,10 @@ export class QueryBuilder<T> {
         return this
     }
     select(): this {
-        const selectFields = this.query.select?.split(',').join(" ");
-        this.modelQuery = this.modelQuery.select(selectFields)
+        if (this.query.select) {
+            const selectFields = this.query.select.split(',').join(" ");
+            this.modelQuery = this.modelQuery.select(selectFields);
+        };
         return this
     }
 

@@ -37,9 +37,11 @@ class QueryBuilder {
         return this;
     }
     select() {
-        var _a;
-        const selectFields = (_a = this.query.select) === null || _a === void 0 ? void 0 : _a.split(',').join(" ");
-        this.modelQuery = this.modelQuery.select(selectFields);
+        if (this.query.select) {
+            const selectFields = this.query.select.split(',').join(" ");
+            this.modelQuery = this.modelQuery.select(selectFields);
+        }
+        ;
         return this;
     }
     pagination() {
