@@ -121,7 +121,9 @@ const getTourService = (query) => __awaiter(void 0, void 0, void 0, function* ()
         .sort()
         .select()
         .pagination()
-        .build();
+        .build()
+        .populate("division", "_id name");
+    // .populate("tourType", "_id name");
     const metaData = yield queryBuilder.meta();
     return {
         tour,

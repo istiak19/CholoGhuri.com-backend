@@ -44,10 +44,12 @@ const tourSchema = new Schema<ITour>({
         type: Date
     },
     departureLocation: {
-        type: String
+        type: String,
+        required: true
     },
     arrivalLocation: {
-        type: String
+        type: String,
+        required: true
     },
     included: {
         type: [String],
