@@ -60,6 +60,8 @@ const credentialsLogin = catchAsync(async (req: Request, res: Response, next: Ne
 const refreshTokenLogin = catchAsync(async (req: Request, res: Response) => {
     const refreshToken = req.cookies.refreshToken;
     const tokenInfo = await authService.credentialsLoginRefresh(refreshToken as string);
+    setCookies(res, { accessToken: tokenInfo.accessToken, refreshToken });
+    
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,

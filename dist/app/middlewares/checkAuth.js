@@ -23,7 +23,7 @@ const checkAuth = (...authRoles) => (req, res, next) => __awaiter(void 0, void 0
     try {
         let accessToken;
         if ((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.startsWith("Bearer ")) {
-            accessToken = req.headers.authorization.split(" ")[1]; // remove "Bearer"
+            accessToken = req.headers.authorization.split(" ")[1];
         }
         else if (req.cookies.accessToken) {
             accessToken = req.cookies.accessToken;

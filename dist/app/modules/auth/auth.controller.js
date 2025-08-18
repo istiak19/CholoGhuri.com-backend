@@ -79,6 +79,7 @@ const credentialsLogin = (0, catchAsync_1.catchAsync)((req, res, next) => __awai
 const refreshTokenLogin = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = req.cookies.refreshToken;
     const tokenInfo = yield auth_service_1.authService.credentialsLoginRefresh(refreshToken);
+    (0, setCookies_1.setCookies)(res, { accessToken: tokenInfo.accessToken, refreshToken });
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
