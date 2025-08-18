@@ -11,7 +11,7 @@ export const checkAuth = (...authRoles: string[]) => async (req: Request, res: R
         let accessToken: string | undefined;
 
         if (req.headers.authorization?.startsWith("Bearer ")) {
-            accessToken = req.headers.authorization.split(" ")[1]; // remove "Bearer"
+            accessToken = req.headers.authorization.split(" ")[1];
         } else if (req.cookies.accessToken) {
             accessToken = req.cookies.accessToken;
         }
